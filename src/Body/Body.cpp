@@ -30,7 +30,7 @@ namespace Body {
 
         RE::ActorHandle actorHandle{a_actor->GetHandle()};
 
-        if (updateMorphsWithoutTimer || !setPerformanceMode) {
+        if (!setPerformanceMode) {
             if (RE::Actor* actor = actorHandle.get().get()) {
                 if (applyProcessedMorph) {
                     SetMorph(actor, distributionKey.c_str(), "OBody", 1.0F);
@@ -50,15 +50,17 @@ namespace Body {
             const unsigned long seed{
                 static_cast<unsigned long>(std::chrono::system_clock::now().time_since_epoch().count())};
             std::mt19937 rng{seed};
-            std::uniform_int_distribution gen{3, 7};
-
+			std::uniform_int_distribution gen{3, 7};
             auto sleepFor{gen(rng)};
             // ReSharper restore CppDFAUnusedValue
             // ReSharper restore CppDFAUnreadVariable
 
             // We do this to prevent stutters due to Racemenu attempting to update morphs for too many NPCs
-            std::thread([this, actorHandle, actorName, sleepFor] {
-                std::this_thread::sleep_for(std::chrono::seconds(sleepFor));
+            std::thread([this, actorHandle, actorName, sleepFor, updateMorphsWithoutTimer] {
+				// @NOTE: this is a test to see if obody is a contrbuting factor to various morph issues,
+				// such as rapid equipping might leave some morphs in bad state (either applied or not),
+				// when one of the items had a equippable morph set (often boots).
+                std::this_thread::sleep_for(updateMorphsWithoutTimer ? 1000ms : std::chrono::seconds(sleepFor));
 
                 if (RE::Actor * actor{actorHandle.get().get()}) {
                     logger::info("Actor {} is valid, updating morphs now", actorName);
