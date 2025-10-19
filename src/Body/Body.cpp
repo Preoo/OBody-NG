@@ -87,24 +87,21 @@ namespace Body {
         if (IsRemovingClothes(a_actor, a_removingArmor, a_equippedArmor)) {
             OnActorRemovingClothes.SendEvent(a_actor);
         }
-
+        const bool clotheActive = IsClotheActive(a_actor);
         // if ORefit is disabled and actor has ORefit morphs, clear them right away.
-        if (!setRefit && IsClotheActive(a_actor)) {
+        if (!setRefit && clotheActive) {
             RemoveClothePreset(a_actor);
             ApplyMorphs(a_actor, true);
             return;
         }
 
         const bool female = IsFemale(a_actor);
-
         if (const auto& presetContainer{PresetManager::PresetContainer::GetInstance()};
             (female && presetContainer.femalePresets.empty()) || !female && presetContainer.malePresets.empty()) {
             return;
         }
 
         const bool naked = IsNaked(a_actor, a_removingArmor, a_equippedArmor);
-        const bool clotheActive = IsClotheActive(a_actor);
-
         if (!naked && a_removingArmor) {
             // Fires when removing their armor
             OnActorNaked.SendEvent(a_actor);
