@@ -60,7 +60,7 @@ namespace Body {
 				// @NOTE: this is a test to see if obody is a contrbuting factor to various morph issues,
 				// such as rapid equipping might leave some morphs in bad state (either applied or not),
 				// when one of the items had a equippable morph set (often boots).
-				auto sleepFor2 = updateMorphsWithoutTimer ? (100ms * sleepFor) : (sleepFor * 1000);
+				auto sleepFor2 = updateMorphsWithoutTimer ? (100 * sleepFor) : (sleepFor * 1000);
                 std::this_thread::sleep_for(std::chrono::milliseconds(sleepFor2));
 
                 if (RE::Actor * actor{actorHandle.get().get()}) {
