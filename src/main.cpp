@@ -105,7 +105,7 @@ namespace {
                 return;
             }
             case SKSE::MessagingInterface::kPostLoad: {
-                const SKSE::WinAPI::HMODULE tweaks{GetModuleHandleA("po3_Tweaks")};
+                const SKSE::WinAPI::HMODULE tweaks{GetModuleHandle("po3_Tweaks")};
                 stl::func = reinterpret_cast<stl::PO3_tweaks_GetFormEditorID>(
                     SKSE::WinAPI::GetProcAddress(tweaks, "GetFormEditorID"));
                 logger::info("Got po3_tweaks api: {}", stl::func != nullptr);
