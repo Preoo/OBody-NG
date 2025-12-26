@@ -39,7 +39,7 @@ namespace Body {
                 // ReSharper disable once CppDFAConstantConditions
                 if (actor && actor->Is3DLoaded()) {
                     morphInterface->ApplyBodyMorphs(actor, true);
-                    morphInterface->UpdateModelWeight(actor, false);
+                    // morphInterface->UpdateModelWeight(actor, false);
                 }
             }
         } else {
@@ -72,7 +72,7 @@ namespace Body {
                     if (actor && actor->Is3DLoaded() &&
                         !morphInterface->HasBodyMorph(actor, "obody_synthebd", "OBody")) {
                         morphInterface->ApplyBodyMorphs(actor, true);
-                        morphInterface->UpdateModelWeight(actor, false);
+                        // morphInterface->UpdateModelWeight(actor, false);
                     }
                 } else {
                     logger::info("Actor {} is no longer valid, not updating morphs", actorName);
